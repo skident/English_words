@@ -5,12 +5,12 @@
 #include <QFont>
 #include <QFile>
 #include <string>
-//#include <QString>
+#include <QString>
 
 class Config
 {
 public:
-    enum eShowType
+    enum eShowDirection
     {
         showForward,
         showBackward
@@ -21,7 +21,7 @@ private:
     static Config*  m_self;
 
     bool            m_bNewSettings;
-    eShowType       m_showType;
+    eShowDirection       m_showType;
     unsigned char   m_nOpacity;
     unsigned int    m_nTimeout;
     QFont           m_font;
@@ -30,8 +30,10 @@ private:
     std::string     m_sFileName;
 
     Config();
-
     ~Config() { delete m_self; }
+
+    void setParam(const QStringRef sName, const QString sValue);
+
 
 public:
 
@@ -44,7 +46,7 @@ public:
     }
 
 //    bool            bNewSettings;
-    inline void setShowType (eShowType __bType)         { m_showType = __bType; }
+    inline void setDirection (eShowDirection __bType)         { m_showType = __bType; }
     inline void setOpacity  (qreal __fOpacity)          { m_nOpacity = __fOpacity; }
     inline void setTimeout  (unsigned char __ucTimeout) { m_nTimeout = __ucTimeout * 1000; }
     inline void setFont     (QFont __fontType)          { m_font = __fontType; }
@@ -53,13 +55,16 @@ public:
     inline void setFileName (std::string __sFileName)   { m_sFileName = __sFileName; }
 
 
-    inline eShowType        getShowType()   const { return m_showType;}
+    inline eShowDirection        getShowType()   const { return m_showType;}
     inline qreal            getOpacity()    const { return m_nOpacity; }
     inline unsigned int     getTimeout()    const { return m_nTimeout; }
     inline QFont            getFont()       const { return m_font; }
     inline QColor           getBgColor()    const { return m_bgColor; }
     inline QColor           getFontColor()  const { return m_textColor; }
     inline std::string      getFileName()   const { return m_sFileName; }
+
+    void load();
+    void save();
 };
 
 

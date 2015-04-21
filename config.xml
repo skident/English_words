@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <bgcolor>123456</bgcolor>
+	<fontcolor>112233</fontcolor>
+	<fontsize>14</fontsize>
+	<timeout>8</timeout>
+	<opacity>50</opacity>
+	<filename>D:\\words.txt</filename>
+	<direction>0</direction>
+</config>

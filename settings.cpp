@@ -50,7 +50,7 @@ Settings* Settings::get()
 
 void Settings::on_buttonBox_accepted()
 {
-    pCfg->setShowType( (ui->combo_show_type->currentIndex() == 0 ? Config::showForward : Config::showBackward));
+    pCfg->setDirection( (ui->combo_show_type->currentIndex() == 0 ? Config::showForward : Config::showBackward));
     pCfg->setOpacity(qreal(ui->opacity->value()) / 100);
     pCfg->setTimeout(ui->nTimeOut->value());
     /*pCfg->setBgColor(m_bgColor);
