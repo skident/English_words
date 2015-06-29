@@ -14,18 +14,10 @@ class Settings : public QDialog
 {
     Q_OBJECT
 
-    explicit Settings(QWidget *parent = 0);
-    ~Settings();
 
 public:
-    static Settings* get();
-
-    //getters
-//    bool inline             isNewSettings() const { return bNewSettings;    }
-//    bool inline             isEngRus()      const { return bEngRus;         }
-//    unsigned char inline    getOpacity()    const { return nOpacity;        }
-//    unsigned char inline    getTimeout()    const { return nTimeout;        }
-//    void inline             setSettingsState(bool bState) { bNewSettings = bState; }
+    explicit Settings(QWidget *parent = 0);
+    ~Settings();
 
 private slots:
     void on_buttonBox_accepted();
@@ -33,20 +25,11 @@ private slots:
     void on_chooseTextColor_clicked();
 
     void on_chooseFont_clicked();
+    void on_chooseFileName_clicked();
+    void on_buttonBox_rejected();
 
 private:
     Ui::Settings *ui;
-    static Settings* _self;
-    Config* pCfg;
-
-//    bool            bNewSettings;
-//    bool            bEngRus;
-//    unsigned char   nOpacity;
-//    unsigned char   nTimeout;
-//    QFont           font;
-
-//    QColor         m_bgColor;
-//    QColor         m_textColor;
 };
 
 #endif // SETTINGS_H

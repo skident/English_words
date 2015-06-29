@@ -35,57 +35,21 @@
      <x>30</x>
      <y>30</y>
      <width>381</width>
-     <height>181</height>
+     <height>225</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="0">
-     <widget class="QLabel" name="label">
+    <item row="6" column="3">
+     <widget class="QToolButton" name="chooseFont">
       <property name="text">
-       <string>Таймер смены слов</string>
+       <string>...</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <spacer name="horizontalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>78</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="2" colspan="2">
-     <widget class="QSpinBox" name="nTimeOut">
-      <property name="value">
-       <number>10</number>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_2">
+    <item row="7" column="3">
+     <widget class="QToolButton" name="chooseFileName">
       <property name="text">
-       <string>Прозрачность окна</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1" colspan="3">
-     <widget class="QSlider" name="opacity">
-      <property name="minimum">
-       <number>10</number>
-      </property>
-      <property name="maximum">
-       <number>100</number>
-      </property>
-      <property name="value">
-       <number>100</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <string>...</string>
       </property>
      </widget>
     </item>
@@ -109,17 +73,33 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="3">
-     <widget class="QToolButton" name="chooseFormColor">
+    <item row="6" column="1" colspan="2">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>128</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="lbl_fontSize">
       <property name="text">
-       <string/>
+       <string>Размер текста</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="lbl_textColor">
+    <item row="5" column="3">
+     <widget class="QToolButton" name="chooseTextColor">
       <property name="text">
-       <string>Цвет текста</string>
+       <string/>
+      </property>
+      <property name="toolButtonStyle">
+       <enum>Qt::ToolButtonIconOnly</enum>
       </property>
      </widget>
     </item>
@@ -136,60 +116,24 @@
       </property>
      </spacer>
     </item>
-    <item row="5" column="3">
-     <widget class="QToolButton" name="chooseTextColor">
+    <item row="5" column="0">
+     <widget class="QLabel" name="lbl_textColor">
       <property name="text">
-       <string/>
-      </property>
-      <property name="toolButtonStyle">
-       <enum>Qt::ToolButtonIconOnly</enum>
+       <string>Цвет текста</string>
       </property>
      </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="lbl_fontSize">
-      <property name="text">
-       <string>Размер текста</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1" colspan="2">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>128</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="6" column="3">
-     <widget class="QToolButton" name="chooseFont">
-      <property name="text">
-       <string>...</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <spacer name="horizontalSpacer_5">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>78</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>Показывать слова</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QToolButton" name="chooseFormColor">
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </item>
@@ -207,11 +151,91 @@
       </item>
      </widget>
     </item>
+    <item row="3" column="1" colspan="3">
+     <widget class="QSlider" name="opacity">
+      <property name="minimum">
+       <number>10</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Прозрачность окна</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2" colspan="2">
+     <widget class="QSpinBox" name="nTimeOut">
+      <property name="value">
+       <number>10</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>78</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Таймер смены слов</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <spacer name="horizontalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>78</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="lbl_fontSize_2">
+      <property name="text">
+       <string>Файл со словами</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="2">
+     <spacer name="horizontalSpacer_6">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>128</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
    </layout>
   </widget>
-  <zorder>buttonBox</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>combo_show_type</zorder>
  </widget>
  <resources/>
  <connections>

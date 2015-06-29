@@ -1,53 +1,65 @@
 #include "config.h"
 
-
 #include <QFile>
 #include <QXmlStreamReader>
 #include <QIODevice>
 #include <QDebug>
-#include <sstream>
+#include <iostream>
 
 using namespace std;
 
 Config* Config::m_self = NULL;
 
 Config::Config()
+    : m_sConfigFileName("config___________.xml")
+    , m_pXmlFile(nullptr)
 {
-    setDirection(showForward);
-    setOpacity(1);
-    setTimeout(10);
-    setFont(QFont());
-    setBgColor(QColor(200, 200, 0));
-    setFontColor(QColor(0,0,0));
-    setFileName("D:\\words.txt");
+    m_pXmlFile = new QFile(m_sConfigFileName);
 
-//    if ( QFile::exists("config.xml") == false )
-//    {
-//        setShowType(engRus);
-//        setOpacity(100);
-//        setTimeout(10);
-//        setFont(QFont());
-//        setBgColor(QColor(200, 200, 0));
-//        setFontColor(QColor(0,0,0));
-//    }
-//    else
-//    {
-//        load settings from file
-//    }
+    //init tags names
+    m_tagName[tag_form_bgcolor]     = "form_bgcolor";
+    m_tagName[tag_form_opacity]     = "form_opacity";
+    m_tagName[tag_font_family]      = "font_family";
+    m_tagName[tag_font_color]       = "font_color";
+    m_tagName[tag_font_size]        = "font_size";
+    m_tagName[tag_font_bold]        = "font_bold";
+    m_tagName[tag_font_italic]      = "font_italic";
+    m_tagName[tag_words_filename]   = "words_filename";
+    m_tagName[tag_words_timeout]    = "words_timeout";
+    m_tagName[tag_words_direction]  = "words_direction";
+
+    //init tags values
+    m_tagValue[tag_form_bgcolor]    = "#111111";
+    m_tagValue[tag_form_opacity]    = "50";
+    m_tagValue[tag_font_family]     = QFont().toString();
+    m_tagValue[tag_font_color]      = "#121212";
+    m_tagValue[tag_font_color]      = "#233221";
+    m_tagValue[tag_font_size]       = "12";
+    m_tagValue[tag_font_bold]       = "1";
+    m_tagValue[tag_font_italic]     = "0";
+    m_tagValue[tag_words_filename]  = "D:\\words.txt";
+    m_tagValue[tag_words_timeout]   = "8";
+    m_tagValue[tag_words_direction] = "0";
 }
 
-void Config::load()
+Config::~Config()
 {
-    QFile* xmlFile = new QFile("config.xml");
-    if (!xmlFile->open(QIODevice::ReadOnly | QIODevice::Text))
+    qDebug() << __PRETTY_FUNCTION__;
+    delete m_self;
+    delete m_pXmlFile;
+}
+
+bool Config::load()
+{
+    if (!m_pXmlFile->open(QIODevice::ReadOnly | QIODevice::Text))
     {
         qDebug() << "Load XML File Problem" << endl << "Couldn't open xmlfile.xml to load settings for download";
         //TODO: offer to generate default config.xml
-        return;
+        return false;
     }
 
-    QXmlStreamReader* xmlReader = new QXmlStreamReader(xmlFile);
-
+    QString sFirstPart = "";
+    QXmlStreamReader* xmlReader = new QXmlStreamReader(m_pXmlFile);
 
     //Parse the XML until we reach end of it
     while(!xmlReader->atEnd() && !xmlReader->hasError())
@@ -66,8 +78,25 @@ void Config::load()
             if(xmlReader->name() == "config")
                 continue;
 
-            qDebug() << xmlReader->name() << " : " << xmlReader->readElementText();
-            setParam(xmlReader->name(), xmlReader->readElementText());
+//            if(xmlReader->name() == "font" || xmlReader->name() == "form" || xmlReader->name() == "words")
+//            {
+////                sFirstPart = xmlReader->name().toString() + "_";
+//                continue;
+//            }
+
+            QString sTag = sFirstPart + xmlReader->name().toString();
+            QString sValue = xmlReader->readElementText();
+            cout << sTag.toStdString() << " : " << sValue.toStdString() << endl;
+
+            //set read params
+            for (auto it : m_tagName)
+            {
+                if (it.second == sTag)
+                {
+                    m_tagValue[it.first] = sValue;
+                    break;
+                }
+            }
         }
     }
 
@@ -75,52 +104,53 @@ void Config::load()
     {
         qDebug() << "xmlFile.xml Parse Error" << endl << xmlReader->errorString();
         //TODO: offer to generate default config.xml
-        return;
+
+        m_pXmlFile->close();
+        return save();
     }
 
     //close reader and flush file
     xmlReader->clear();
-    xmlFile->close();
+    m_pXmlFile->close();
+
+    return true;
 }
 
-void Config::setParam(const QStringRef sName, const QString sValue)
+bool Config::save()
 {
-    if (sName == "bgcolor")
-    {
-        QColor color(QRgb(sValue.toInt()));
-        setBgColor(color);
-    }
-    else if (sName == "fontcolor")
-    {
-        QColor color(QRgb(sValue.toInt()));
-        setFontColor(color);
-    }
-    else if (sName == "fontsize")
-    {
-        QFont font;
-        font.setPixelSize(sValue.toInt());
-        setFont(font);
-    }
-    else if (sName == "timeout")
-    {
-        setTimeout(sValue.toInt());
-    }
-    else if (sName == "opacity")
-    {
-        qreal opacity = qreal(sValue.toFloat()) / 100;
-        setOpacity(opacity);
-    }
-    else if (sName == "filename")
-    {
-        setFileName(sValue.toStdString());
-    }
-    else if (sName == "direction")
-    {
-        eShowDirection direct = showForward;
-        if (sValue != "0")
-            direct = showBackward;
+    m_pXmlFile->close();
+    m_pXmlFile->open(QIODevice::WriteOnly | QIODevice::Text);
 
-        setDirection(direct);
-    }
+    QXmlStreamWriter xmlWriter(m_pXmlFile);
+    xmlWriter.setAutoFormatting(true);
+    xmlWriter.writeStartDocument();
+
+    xmlWriter.writeStartElement("config");
+        for (auto it : m_tagName)
+            xmlWriter.writeTextElement(it.second, m_tagValue[it.first]);
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndDocument();
+
+    m_pXmlFile->close();
+
+    return true;
 }
 
+void Config::setParam(const eTag tagId, const QString sValue)
+{
+    if (m_tagName.find(tagId) != m_tagName.end())
+        m_tagValue[tagId] = sValue;
+}
+
+QString Config::getParam(const eTag tagId)
+{
+    if (m_tagName.find(tagId) != m_tagName.end())
+        return m_tagValue[tagId];
+    return "";
+}
+
+void Config::showConfig()
+{
+    for (auto it : m_tagName)
+        cout << it.second.toStdString() << " | " << (m_tagValue[it.first]).toStdString() << endl;
+}

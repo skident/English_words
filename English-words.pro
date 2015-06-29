@@ -18,15 +18,24 @@ SOURCES += main.cpp\
     about.cpp \
     config.cpp \
     WordsController.cpp \
-    Words.cpp
+    Words.cpp \
+    PushLabel.cpp \
+    Controller.cpp \
+    Model.cpp \
+    View.cpp \
 
 HEADERS  += \
     settings.h \
     about.h \
     config.h \
     WordsController.h \
-    Words.h
+    Words.h \
+    PushLabel.h \
+    Controller.h \
+    Model.h \
+    View.h
 
-FORMS    += words.ui \
+FORMS    += \
     settings.ui \
-    about.ui
+    about.ui \
+    WordsController.ui

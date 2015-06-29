@@ -1,21 +1,28 @@
 #include "WordsController.h"
 #include <QApplication>
-#include "Words.h"
-#include "WordsController.h"
-#include <QDebug>
+
+//#include "view.h"
+#include "Controller.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    WordsController* w = WordsController::Get();
-    w->setWindowFlags(Qt::Window |  Qt::WindowStaysOnTopHint);
-    w->show();
-    w->Load();
 
-//    Words words;
-//    words.LoadWords("D:\\words.txt");
-//    words.GetNext();
+//    Controller c;
+//    c.LoadData();
+//    c.Start();
+
+    Controller* c = Controller::Get();
+    c->LoadData();
+    c->Start();
+
+
+//    WordsController w;
+//    w.setWindowFlags(Qt::Window |  Qt::WindowStaysOnTopHint);
+
+//    w.show();
+//    w.Start();
 
     return a.exec();
 }

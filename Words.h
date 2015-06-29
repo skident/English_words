@@ -6,12 +6,12 @@
 class Words
 {
 private:
-    std::string m_sFileName;
+    std::string                         m_sFileName;
     std::map<unsigned int, std::string> m_origLangMap;
     std::map<unsigned int, std::string> m_transLangMap;
-    unsigned int m_nCurrIndex;
-    unsigned int m_nWordsCount;
-    bool m_isRandom;
+    unsigned int                        m_nCurrIndex;
+    unsigned int                        m_nWordsCount;
+    bool                                m_isRandom;
 
     unsigned int GenNextIdx();
 

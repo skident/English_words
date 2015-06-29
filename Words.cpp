@@ -3,8 +3,10 @@
 #include <fstream>
 #include <exception>
 #include <QTime>
+#include <QFile>
+#include <QDebug>
 
-#include <iostream>
+//#include <iostream>
 
 using namespace std;
 
@@ -39,6 +41,7 @@ Words::Words(bool isRandom)
 
 Words::~Words()
 {
+    qDebug() << __FUNCTION__;
 }
 
 void Words::Reset()
@@ -56,6 +59,12 @@ void Words::LoadWords(string sFileName, char cDelimiter)
     if (sFileName.empty())
         throw invalid_argument("File name can't be empty");
 
+//    if ( QFile::exists(m_sFileName.c_str()) == false )
+//    {
+////        lbl_words->setText("ERROR FILE NOT FOUND!");
+//        return;
+//    }
+
     Reset();
 
     m_sFileName = sFileName;
@@ -64,12 +73,6 @@ void Words::LoadWords(string sFileName, char cDelimiter)
     string sFirst, sSecond;
 
     m_origLangMap.clear();
-
-//    if ( QFile::exists(m_sFileName.c_str()) == false )
-//    {
-//        lbl_words->setText("ERROR FILE NOT FOUND!");
-//        return;
-//    }
 
     in.open(m_sFileName.c_str(), ios::in);
 
@@ -92,12 +95,12 @@ void Words::LoadWords(string sFileName, char cDelimiter)
     }
 
     m_nWordsCount = m_origLangMap.size();
-//    qDebug() << "Words count " << m_nWordsCount;
+    qDebug() << "Words count " << m_nWordsCount;
 }
 
+// Random number between low and high
 int Words::RandInt(int low, int high)
 {
-    // Random number between low and high
     return qrand() % ((high + 1) - low) + low;
 }
 
@@ -105,7 +108,11 @@ int Words::RandInt(int low, int high)
 unsigned int Words::GenNextIdx()
 {
     if (m_isRandom)
-        m_nCurrIndex = RandInt(0, m_nWordsCount-1); //0 to count of words in container
+    {
+        m_nCurrIndex = 0;
+        if (m_nWordsCount > 0)
+            m_nCurrIndex = RandInt(0, m_nWordsCount-1); //0 to count of words in container
+    }
     else
         m_nCurrIndex++;
 
@@ -116,5 +123,11 @@ pair<string, string> Words::GetNext()
 {
     GenNextIdx();
 
-    return pair<string, string>(m_origLangMap[m_nCurrIndex], m_transLangMap[m_nCurrIndex]);
+    string sOrig = "";
+    string sTrans = "";
+
+    sOrig = m_origLangMap[m_nCurrIndex];
+    sTrans = m_transLangMap[m_nCurrIndex];
+
+    return pair<string, string>(sOrig, sTrans);
 }
