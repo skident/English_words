@@ -4,7 +4,7 @@
 #include <QTimer>
 #include <QTime>
 
-#include "about.h"
+//#include "about.h"
 #include "settings.h"
 #include "config.h"
 #include <QDebug>
@@ -316,5 +316,4 @@ void WordsController::mouseDoubleClickEvent(QMouseEvent * e)
     if (e == nullptr)
         return;
 }
-
 

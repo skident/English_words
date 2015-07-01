@@ -15,27 +15,25 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     settings.cpp \
-    about.cpp \
     config.cpp \
-    WordsController.cpp \
     Words.cpp \
     PushLabel.cpp \
     Controller.cpp \
     Model.cpp \
-    View.cpp \
+    AboutView.cpp \
+    MainView.cpp \
+    SettingsView.cpp
 
 HEADERS  += \
     settings.h \
-    about.h \
     config.h \
-    WordsController.h \
     Words.h \
     PushLabel.h \
     Controller.h \
     Model.h \
-    View.h
+    AboutView.h \
+    MainView.h \
+    SettingsView.h
 
 FORMS    += \
-    settings.ui \
-    about.ui \
-    WordsController.ui
+    settings.ui

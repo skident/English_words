@@ -6,7 +6,7 @@
 #pragma once
 
 #include <QObject>
-#include "View.h"
+#include "MainView.h"
 #include "Model.h"
 #include <QTimer>
 #include <QVector>
@@ -14,8 +14,9 @@
 class Controller : public QObject
 {
     Q_OBJECT
+
 private:
-    View*                   m_pView;
+    MainView*                   m_pView;
     Model*                  m_pModel;
     QTimer*                 m_pTimer;
     unsigned int            m_nCurrIndex;
@@ -44,10 +45,17 @@ public:
     void GetPrevWord();
     void GetNextWord();
 
+
     void Prev();
     void Next();
+
 public slots:
-    void ShowWord(bool bNext = true);
+    void slotShowWord(bool bNext = true);
+
+    void slotClose();
+    void slotSettings();
+    void slotAbout();
+
 };
 
 

@@ -1,5 +1,8 @@
 #include "Controller.h"
 
+#include "AboutView.h"
+#include "SettingsView.h"
+
 #include <QDebug>
 #include <chrono>
 #include <future>
@@ -21,13 +24,13 @@ Controller::Controller()
     , m_nCurrIndex(0)
     , m_nTimeout(6000)
 {
-    m_pView  = new View();
+    m_pView  = new MainView();
     m_pModel = new Model();
     m_pTimer = new QTimer();
 
     m_pTimer->setInterval(m_nTimeout);
     //SIGNALS - SLOTS
-    connect(m_pTimer,       SIGNAL(timeout()), this, SLOT(ShowWord()));
+    connect(m_pTimer,       SIGNAL(timeout()), this, SLOT(slotShowWord()));
 }
 
 Controller::~Controller()
@@ -68,7 +71,7 @@ void Controller::Next()
     m_nCurrIndex++;
     if (m_nCurrIndex == m_Indexes.size())
         m_nCurrIndex = 0;
-    ShowWord(false);
+    slotShowWord(false);
     Start();
 }
 
@@ -79,31 +82,28 @@ void Controller::Prev()
         m_nCurrIndex = m_Indexes.size() - 1;
     else
         m_nCurrIndex--;
-    ShowWord(false);
+    slotShowWord(false);
     Start();
 }
 
 /**
  * @brief Controller::ShowWord - starts
- * @param bRandom
+ * @param bShowNext
  */
-void Controller::ShowWord(bool bNext)
+void Controller::slotShowWord(bool bShowNext)
 {
-    qDebug() << "Start Show";
-//    if (bRandom)
-//        m_nCurrIndex = qrand() % m_pModel->GetWordsCount();
-//    else
-//        m_nCurrIndex++;
+    qDebug() << __FUNCTION__;
 
-    if (bNext)
+    if (bShowNext)
     {
-    m_nCurrIndex++;
-    if (m_nCurrIndex == m_Indexes.size())
-        m_nCurrIndex = 0;
+        m_nCurrIndex++;
+        if (m_nCurrIndex == m_Indexes.size())
+            m_nCurrIndex = 0;
     }
 
     m_CurrWordsPair = m_pModel->getWordsPair(m_Indexes[m_nCurrIndex]);
     m_pView->ShowWord(m_CurrWordsPair.first);
+
     Delay(m_nTimeout/2);
     m_pView->ShowWord(m_CurrWordsPair.first + " - " + m_CurrWordsPair.second);
 }
@@ -119,3 +119,33 @@ void Controller::Delay(int millisecondsToWait)
     }
     qDebug() << "Delay finished" << endl;
 }
+
+void Controller::slotClose()
+{
+    delete m_self;
+}
+
+void Controller::slotAbout()
+{
+    qDebug() << __FUNCTION__;
+    m_pTimer->stop();
+    AboutView* about = new AboutView();
+//    about->show(); //maybe need make it async
+//    m_pTimer->start();
+}
+
+void Controller::slotSettings()
+{
+    qDebug() << __FUNCTION__;
+    m_pTimer->stop();
+    SettingsView* settings = new SettingsView();
+//    Settings settings;
+//    if ( QDialog::Accepted == settings.exec() )
+//    {
+//        qDebug() << "New config";
+//        applySettings();
+//    }
+
+//    m_pTimer->start();
+}
+

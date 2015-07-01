@@ -9,29 +9,29 @@
 #include <QPushButton>
 #include "PushLabel.h"
 #include <QString>
+#include <QPoint>
 
-//class Controller;
-
-class View: public QObject
+class MainView: public QObject
 {
     Q_OBJECT
 
 private:
-    QWidget* wgt_MainWindow;
-    QLabel* lbl_WordsDisplay;
-    PushLabel* lbl_ShowPrev;
-    PushLabel* lbl_ShowNext;
-//    Controller* m_pController;
+    QWidget*    wgt_MainWindow;
+    QLabel*     lbl_WordsDisplay;
+    PushLabel*  lbl_ShowPrev;
+    PushLabel*  lbl_ShowNext;
 
 public:
-    View();
-    ~View();
+    MainView();
+    virtual ~MainView();
 
     void ShowWord(QString sWord);
 
 private slots:
     void slotPrevClicked();
     void slotNextClicked();
+
+    void slotShowContextMenu(const QPoint &pos);
 };
 
 #endif // VIEW_H
