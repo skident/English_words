@@ -10,20 +10,23 @@
 #include "Model.h"
 #include <QTimer>
 #include <QVector>
+#include <memory>
 
 class Controller : public QObject
 {
     Q_OBJECT
 
 private:
-    MainView*                   m_pView;
-    Model*                  m_pModel;
-    QTimer*                 m_pTimer;
+    static Controller*      m_self;
+
+    std::unique_ptr<MainView>               m_pView;
+    std::unique_ptr<Model>                  m_pModel;
+    std::unique_ptr<QTimer>                 m_pTimer;
+
     unsigned int            m_nCurrIndex;
     unsigned int            m_nTimeout;
     QPair<QString, QString> m_CurrWordsPair;
     QVector<int>            m_Indexes;
-    static Controller*      m_self;
 
     void Delay(int millisecondsToWait);
 

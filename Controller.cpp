@@ -18,31 +18,27 @@ using namespace std;
 Controller* Controller::m_self = nullptr;
 
 Controller::Controller()
-    : m_pView(nullptr)
-    , m_pModel(nullptr)
-    , m_pTimer(nullptr)
-    , m_nCurrIndex(0)
+    : m_nCurrIndex(0)
     , m_nTimeout(6000)
 {
-    m_pView  = new MainView();
-    m_pModel = new Model();
-    m_pTimer = new QTimer();
+    m_pView.reset(new MainView());
+    m_pModel.reset(new Model());
+    m_pTimer.reset(new QTimer());
 
     m_pTimer->setInterval(m_nTimeout);
     //SIGNALS - SLOTS
-    connect(m_pTimer,       SIGNAL(timeout()), this, SLOT(slotShowWord()));
+    connect(m_pTimer.get(),       SIGNAL(timeout()), this, SLOT(slotShowWord()));
 }
 
 Controller::~Controller()
 {
-    delete m_pView;
-    delete m_pModel;
 }
 
  //filename from config
 void Controller::LoadData()
 {
-    bool bRet = m_pModel->LoadData("E:\\words.txt", "-");
+//    bool bRet = m_pModel->LoadData("E:\\words.txt", "-");
+    bool bRet = m_pModel->LoadData("e:\\Media\\Docs\\English words\\DenisSchool.txt", "-");
     if (!bRet)
     {
         qDebug() << "Data were not loaded.";

@@ -43,8 +43,14 @@ MainView::MainView()
     lay_MainLayout->addWidget(lbl_WordsDisplay);
     wgt_MainWindow->setLayout(lay_MainLayout);
     wgt_MainWindow->setContextMenuPolicy(Qt::CustomContextMenu);
+//    wgt_MainWindow->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     wgt_MainWindow->show();
 
+//    wgt_MainWindow->hide();
+//    Qt::WindowFlags flags = wgt_MainWindow->windowFlags();
+//    flags ^= Qt::FramelessWindowHint;
+//    wgt_MainWindow->setWindowFlags(flags);
+//    wgt_MainWindow->show();
 
     //actions
     connect(lbl_ShowPrev,       SIGNAL(clicked()),                          this, SLOT(slotPrevClicked()));
@@ -112,4 +118,28 @@ void MainView::slotShowContextMenu(const QPoint &pos)
     connect(actExit,       SIGNAL(triggered()), Controller::Get(), SLOT(slotClose()));
 
     menu.exec(globalPos);
+}
+
+
+void MainView::mousePressEvent(QMouseEvent *event)
+{
+    // Запоминаем позицию при нажатии кнопки мыши
+    mpos = event->pos();
+}
+
+void MainView::mouseMoveEvent(QMouseEvent *event)
+{
+    if (mpos.x() >= 0 && event->buttons() && Qt::LeftButton)
+    {
+        QPoint diff = event->pos() - mpos;
+        QPoint newpos = this->pos() + diff;
+
+        this->move(newpos);
+    }
+}
+
+void MainView::mouseReleaseEvent(QMouseEvent *)
+{
+    // Очищаем старое значение позиции нажатия мыши
+    mpos = QPoint(-1, -1);
 }
